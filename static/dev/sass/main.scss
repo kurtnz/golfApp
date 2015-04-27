@@ -1,0 +1,109 @@
+// Normalize
+// -------------------------------------------------
+
+@import "vendor/normalize";
+@import "modules/variables";
+@import "modules/mixins";
+@import "modules/type";
+@import "modules/grid";
+// @import "modules/unsemantic-grid-responsive";
+
+
+
+main {
+	background:red;
+	margin:0 auto;
+	@include grid;
+	@include gridMakeColumns(3, $mq-min-small);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: arial;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+html {
+    box-sizing: border-box;
+}
+body {
+    padding: 2em;
+}
+h1 {
+    clear: both;
+    margin-bottom: 1em;
+}
+/*html,
+body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+}*/
+#map-canvas {
+    width: 100%;
+    height: 300px;
+    background: red;
+}
+
+/* Course head */
+.course__head {
+    width: 100%;
+    list-style: none;
+}
+.course__head li {
+    width: 20%;
+    height: 3em;
+    padding: 1em;
+    background: #efefef;
+    float: left;
+}
+.course__head li:nth-child(odd) {
+    background: #ccc;
+}
+
+/* Course holes */
+.course__holes {
+    clear: both;
+    overflow: hidden;
+    float: left;
+    margin-left: -20%;
+    padding-left: 20%;
+    width: 100%;
+}
+
+/* Hole */
+.course__hole {
+    width: 100%;
+    clear: both;
+    list-style: none;
+    overflow: hidden;
+    float: left;
+}
+.course__hole li {
+    width: 25%;
+    height: 3em;
+    line-height: 3em;
+    text-align: center;
+    float: left;
+}
+
+/* Score */
+.course__scores {
+    width: 20%;
+    float: right;
+}
+#course-score ul {
+    list-style: none;
+}
+#course-score li {
+    width: 100%;
+    height: 3em;
+    padding: 1em;
+    float: left;
+    text-align: center;
+}
