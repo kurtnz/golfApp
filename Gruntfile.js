@@ -83,17 +83,17 @@ module.exports = function(grunt) {
           grunt.log.writeln('Waiting for more changes...');
         },
       },
+      hbs: {
+        files: ['static/dev/**/*.hbs'],
+        tasks: ['concat', 'uglify', 'handlebars']
+      },
       scripts: {
         files: 'static/dev/**/*.js',
-        tasks: ['jshint', 'concat']
+        tasks: ['concat', 'uglify']
       },
       css: {
         files: ['static/**/*.scss'],
         tasks: ['sass', 'autoprefixer']
-      },
-      templates: {
-        files: ['static/dev/hbs/*.js'],
-        tasks: ['handlebars']
       }
     },
 

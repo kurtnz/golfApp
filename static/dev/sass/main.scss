@@ -58,7 +58,8 @@ body {
 .course__head li {
     width: 20%;
     height: 3em;
-    padding: 1em;
+    line-height: 3em;
+    text-align: center;
     background: #efefef;
     float: left;
 }
@@ -83,11 +84,12 @@ body {
     list-style: none;
     overflow: hidden;
     float: left;
+    margin: 0;
 }
 .course__hole li {
     width: 25%;
-    height: 3em;
-    line-height: 3em;
+    height: 3.5em;
+    line-height: 3.5em;
     text-align: center;
     float: left;
 }
@@ -99,11 +101,12 @@ body {
 }
 #course-score ul {
     list-style: none;
+    margin: 0;
 }
 #course-score li {
     width: 100%;
-    height: 3em;
-    padding: 1em;
+    height: 3.5em;
+    line-height: 3.5em;
     float: left;
     text-align: center;
 }

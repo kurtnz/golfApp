@@ -385,6 +385,21 @@ fauxServer.addRoutes({
                 { id: 4, name: 'Wattle Park' }
             ];
         }
+    },
+    hole: {
+        urlExp: "api/v1/hole",
+        httpMethod: "POST",
+        handler: function(context) {
+            var randId = parseInt((Math.random(999999999)) * 100000000000000000);
+            return {
+                'id': randId,
+                'score': 0,
+                'putts': 0,
+                'fairways': 0,
+                'bunkers': 0,
+                'club': ''
+            }
+        }
     }
 });
 
@@ -410,6 +425,7 @@ var CourseModel = Backbone.Model.extend({
 });
 var HoleModel = Backbone.Model.extend();
 var RoundHoleModel = Backbone.Model.extend({
+    url: 'api/v1/hole',
     defaults: {
         'score': 0,
         'putts': 0,
@@ -435,6 +451,7 @@ var RoundCollection = Backbone.Collection.extend({
         for( var i=0; i<props.numHoles; i++ ) {
             var hole = new RoundHoleModel();
             this.add(hole);
+            hole.save();
         }
     }
 });
@@ -445,13 +462,11 @@ var RoundCollection = Backbone.Collection.extend({
 
 var HomeView = Backbone.Marionette.ItemView.extend({
     template: GolfApp.Templates['home'],
-    initialize: function() {
-        console.log(GolfApp.Templates['home']);
-    },
     events: {
         'click .new-round': 'newRound'
     },
-    newRound: function() {
+    newRound: function(e) {
+        e.preventDefault();
         window.vent.trigger('showCourses');
     }
 });
@@ -468,7 +483,7 @@ var CourseView = Backbone.Marionette.ItemView.extend({
     selectCourse: function(e) {
         e.preventDefault();
         var courseId = this.model.get('id');
-        window.vent.trigger('showCourse', courseId);
+        window.vent.trigger('showScorecard', courseId);
     }
 });
 var Course = Backbone.Marionette.CompositeView.extend({
@@ -490,9 +505,10 @@ var RoundHole = Backbone.Marionette.ItemView.extend({
     events: {
         'click a': 'editScore'
     },
-    editScore: function() {
-        var hole = this.model;
-        window.vent.trigger('editScore', hole);
+    editScore: function(e) {
+        e.preventDefault();
+        var holeModel = this.model;
+        window.vent.trigger('editScore', holeModel);
     }
 });
 var Round = Backbone.Marionette.CollectionView.extend({
@@ -530,20 +546,15 @@ GolfApp.addRegions({
 });
 
 
-// Start app
+// Router 
 // ----------------------------------------------
 
-GolfApp.on('start', function() {
-    Backbone.history.start();
-
-    window.vent = new Backbone.Wreqr.EventAggregator();
-
-    // Home view
-    var homeView = new HomeView();
-    GolfApp.appRegion.show(homeView);
-
-    // Course select
-    vent.on('showCourses', function() {
+var controller = {
+    home: function() {
+        var homeView = new HomeView();
+        GolfApp.appRegion.show(homeView);
+    },
+    showCourses: function() {
         var coursesCollection = new CoursesCollection();
         var coursesCollectionFetch = coursesCollection.fetch();
         coursesCollectionFetch.done(function() {
@@ -552,10 +563,8 @@ GolfApp.on('start', function() {
             });
             GolfApp.appRegion.show(courses);
         });
-    });
-
-    // Scorecard
-    vent.on('showCourse', function(courseId) {
+    },
+    showScorecard: function(courseId) {
         var courseModel = new CourseModel({url: courseId});
         var fetchCourseModel = courseModel.fetch();
         fetchCourseModel.done(function() {
@@ -570,14 +579,58 @@ GolfApp.on('start', function() {
             GolfApp.appRegion.show(course);
             GolfApp.scoreRegion.show(round);
         });
-    });
-
-    // Edit score
-    vent.on('editScore', function(holeModel) {
+    },
+    editScore: function(holeModel) {
         var score = new Score({
             model: holeModel
         });
         GolfApp.appRegion.show(score);
+    }
+};
+
+Router = Backbone.Marionette.AppRouter.extend({
+    appRoutes: {
+        'courses': 'showCourses',
+        'scorecard/:courseId': 'showScorecard',
+        '': 'home'
+    }
+});
+
+
+// Start app
+// ----------------------------------------------
+
+GolfApp.on('start', function() {
+
+    // Router
+    GolfApp.router = new Router({controller: controller});
+
+    // Event aggregator
+    window.vent = new Backbone.Wreqr.EventAggregator();
+
+    // Home
+    vent.on('showHome', function() {
+        GolfApp.router.navigate('', {trigger: true});
     });
+
+    // Course select
+    vent.on('showCourses', function() {
+        GolfApp.router.navigate('/courses', {trigger: true});
+    });
+
+    // Scorecard
+    vent.on('showScorecard', function(courseId) {
+        GolfApp.router.navigate('/scorecard/' + courseId, {trigger: true});
+    });
+
+    // Edit score
+    vent.on('editScore', function(holeModel) {
+        controller.editScore(holeModel);
+    });
+
+    // Start history
+    if (!Backbone.History.started) {
+        Backbone.history.start({pushState: true});
+    }
 });
 GolfApp.start();

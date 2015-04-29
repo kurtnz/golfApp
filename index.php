@@ -5,6 +5,6 @@
     </head>
     <body>
         <div id="app"></div>
-        <script src="static/dist/js/app.min.js"></script>
+        <script src="static/dist/js/app.min.js" type="text/javascript"></script>
     </body>
 </html>

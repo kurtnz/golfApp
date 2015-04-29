@@ -56,13 +56,13 @@ this["GolfApp"]["Templates"]["score"] = Handlebars.template({"compiler":[6,">= 2
 
   return "Score: <input type=\"text\" name=\"score\" value=\""
     + alias3(((helper = (helper = helpers.score || (depth0 != null ? depth0.score : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"score","hash":{},"data":data}) : helper)))
-    + "\">\nPutts: <input type=\"text\" name=\"score\" value=\""
+    + "\"><br>\nPutts: <input type=\"text\" name=\"score\" value=\""
     + alias3(((helper = (helper = helpers.putts || (depth0 != null ? depth0.putts : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"putts","hash":{},"data":data}) : helper)))
-    + "\">\nFairways: <input type=\"text\" name=\"score\" value=\""
+    + "\"><br>\nFairways: <input type=\"text\" name=\"score\" value=\""
     + alias3(((helper = (helper = helpers.fairways || (depth0 != null ? depth0.fairways : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"fairways","hash":{},"data":data}) : helper)))
-    + "\">\nBunkers: <input type=\"text\" name=\"score\" value=\""
+    + "\"><br>\nBunkers: <input type=\"text\" name=\"score\" value=\""
     + alias3(((helper = (helper = helpers.bunkers || (depth0 != null ? depth0.bunkers : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"bunkers","hash":{},"data":data}) : helper)))
-    + "\">\nClub: <input type=\"text\" name=\"score\" value=\""
+    + "\"><br>\nClub: <input type=\"text\" name=\"score\" value=\""
     + alias3(((helper = (helper = helpers.club || (depth0 != null ? depth0.club : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"club","hash":{},"data":data}) : helper)))
     + "\">\n\n<div id=\"map-canvas\"></div>";
 },"useData":true});
