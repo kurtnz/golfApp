@@ -1,407 +1,421 @@
 // Data
 // ----------------------------------------------
 
-fauxServer.addRoutes({
-    course: {
-        urlExp: "api/v1/course/:courseId",
-        httpMethod: "GET",
-        handler: function (context, courseId) {
-            var data;
-            if(courseId == 1) {
-                data = {
-                    coursename: 'Yarra Bend',
-                    holes: [
-                        {
-                            holenum: 1,
-                            white: {
-                                par: 4,
-                                handicap: 9,
-                                distance: 330
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 11,
-                                distance: 293
-                            }
-                        },
-                        {
-                            holenum: 2,
-                            white: {
-                                par: 4,
-                                handicap: 3,
-                                distance: 380
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 3,
-                                distance: 318
-                            }
-                        },
-                        {
-                            holenum: 3,
-                            white: {
-                                par: 4,
-                                handicap: 11,
-                                distance: 308
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 8,
-                                distance: 297
-                            }
-                        },
-                        {
-                            holenum: 4,
-                            white: {
-                                par: 3,
-                                handicap: 17,
-                                distance: 112
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 18,
-                                distance: 103
-                            }
-                        },
-                        {
-                            holenum: 5,
-                            white: {
-                                par: 4,
-                                handicap: 1,
-                                distance: 387
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 1,
-                                distance: 321
-                            }
-                        },
-                        {
-                            holenum: 6,
-                            white: {
-                                par: 4,
-                                handicap: 13,
-                                distance: 327
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 10,
-                                distance: 288
-                            }
-                        },
-                        {
-                            holenum: 7,
-                            white: {
-                                par: 4,
-                                handicap: 5,
-                                distance: 341
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 7,
-                                distance: 281
-                            }
-                        },
-                        {
-                            holenum: 8,
-                            white: {
-                                par: 3,
-                                handicap: 15,
-                                distance: 159
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 14,
-                                distance: 127
-                            }
-                        },
-                        {
-                            holenum: 9,
-                            white: {
-                                par: 5,
-                                handicap: 7,
-                                distance: 445
-                            },
-                            red: {
-                                par: 5,
-                                handicap: 6,
-                                distance: 377
-                            }
-                        },
-                        {
-                            holenum: 10,
-                            white: {
-                                par: 3,
-                                handicap: 14,
-                                distance: 122
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 13,
-                                distance: 115
-                            }
-                        },
-                        {
-                            holenum: 11,
-                            white: {
-                                par: 4,
-                                handicap: 18,
-                                distance: 260
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 15,
-                                distance: 244
-                            }
-                        },
-                        {
-                            holenum: 12,
-                            white: {
-                                par: 4,
-                                handicap: 2,
-                                distance: 370
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 2,
-                                distance: 331
-                            }
-                        },
-                        {
-                            holenum: 13,
-                            white: {
-                                par: 5,
-                                handicap: 16,
-                                distance: 435
-                            },
-                            red: {
-                                par: 5,
-                                handicap: 9,
-                                distance: 382
-                            }
-                        },
-                        {
-                            holenum: 14,
-                            white: {
-                                par: 3,
-                                handicap: 4,
-                                distance: 160
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 16,
-                                distance: 122
-                            }
-                        },
-                        {
-                            holenum: 15,
-                            white: {
-                                par: 5,
-                                handicap: 6,
-                                distance: 486
-                            },
-                            red: {
-                                par: 5,
-                                handicap: 5,
-                                distance: 395
-                            }
-                        },
-                        {
-                            holenum: 16,
-                            white: {
-                                par: 3,
-                                handicap: 12,
-                                distance: 148
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 17,
-                                distance: 112
-                            }
-                        },
-                        {
-                            holenum: 17,
-                            white: {
-                                par: 4,
-                                handicap: 8,
-                                distance: 333
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 4,
-                                distance: 307
-                            }
-                        },
-                        {
-                            holenum: 18,
-                            white: {
-                                par: 4,
-                                handicap: 10,
-                                distance: 306
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 12,
-                                distance: 290
-                            }
-                        }
-                    ]
-                };
-            } else if(courseId == 2) {
-                data = {
-                    coursename: 'Burnley',
-                    holes: [
-                        {
-                            holenum: 1,
-                            white: {
-                                par: 4,
-                                handicap: 14,
-                                distance: 284
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 13,
-                                distance: 268
-                            }
-                        },
-                        {
-                            holenum: 2,
-                            white: {
-                                par: 4,
-                                handicap: 12,
-                                distance: 255
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 11,
-                                distance: 243
-                            }
-                        },
-                        {
-                            holenum: 3,
-                            white: {
-                                par: 4,
-                                handicap: 4,
-                                distance: 323
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 3,
-                                distance: 303
-                            }
-                        },
-                        {
-                            holenum: 4,
-                            white: {
-                                par: 4,
-                                handicap: 6,
-                                distance: 313
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 5,
-                                distance: 305
-                            }
-                        },
-                        {
-                            holenum: 5,
-                            white: {
-                                par: 4,
-                                handicap: 8,
-                                distance: 287
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 7,
-                                distance: 280
-                            }
-                        },
-                        {
-                            holenum: 6,
-                            white: {
-                                par: 3,
-                                handicap: 18,
-                                distance: 117
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 17,
-                                distance: 107
-                            }
-                        },
-                        {
-                            holenum: 7,
-                            white: {
-                                par: 3,
-                                handicap: 10,
-                                distance: 150
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 9,
-                                distance: 148
-                            }
-                        },
-                        {
-                            holenum: 8,
-                            white: {
-                                par: 4,
-                                handicap: 16,
-                                distance: 225
-                            },
-                            red: {
-                                par: 4,
-                                handicap: 15,
-                                distance: 210
-                            }
-                        },
-                        {
-                            holenum: 9,
-                            white: {
-                                par: 3,
-                                handicap: 2,
-                                distance: 182
-                            },
-                            red: {
-                                par: 3,
-                                handicap: 1,
-                                distance: 174
-                            }
-                        }
-                    ]
-                };
-            }
-            return data;
-        }
-    },
-    courses: {
-        urlExp: "api/v1/courses",
-        httpMethod: "GET",
-        handler: function (context) {
-            return  [
-                { id: 1, name: 'Yarra Bend' },
-                { id: 2, name: 'Burnley' },
-                { id: 3, name: 'Ivanhoe' },
-                { id: 4, name: 'Wattle Park' }
-            ];
-        }
-    },
-    hole: {
-        urlExp: "api/v1/hole",
-        httpMethod: "POST",
-        handler: function(context) {
-            var randId = parseInt((Math.random(999999999)) * 100000000000000000);
-            return {
-                'id': randId,
-                'score': 0,
-                'putts': 0,
-                'fairways': 0,
-                'bunkers': 0,
-                'club': ''
-            }
-        }
-    }
-});
+// fauxServer.addRoutes({
+//     course: {
+//         urlExp: "api/v1/course/:courseId",
+//         httpMethod: "GET",
+//         handler: function (context, courseId) {
+//             var data;
+//             if(courseId == 1) {
+//                 data = {
+//                     coursename: 'Yarra Bend',
+//                     holes: [
+//                         {
+//                             holenum: 1,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 9,
+//                                 distance: 330
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 11,
+//                                 distance: 293
+//                             }
+//                         },
+//                         {
+//                             holenum: 2,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 3,
+//                                 distance: 380
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 3,
+//                                 distance: 318
+//                             }
+//                         },
+//                         {
+//                             holenum: 3,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 11,
+//                                 distance: 308
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 8,
+//                                 distance: 297
+//                             }
+//                         },
+//                         {
+//                             holenum: 4,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 17,
+//                                 distance: 112
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 18,
+//                                 distance: 103
+//                             }
+//                         },
+//                         {
+//                             holenum: 5,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 1,
+//                                 distance: 387
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 1,
+//                                 distance: 321
+//                             }
+//                         },
+//                         {
+//                             holenum: 6,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 13,
+//                                 distance: 327
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 10,
+//                                 distance: 288
+//                             }
+//                         },
+//                         {
+//                             holenum: 7,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 5,
+//                                 distance: 341
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 7,
+//                                 distance: 281
+//                             }
+//                         },
+//                         {
+//                             holenum: 8,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 15,
+//                                 distance: 159
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 14,
+//                                 distance: 127
+//                             }
+//                         },
+//                         {
+//                             holenum: 9,
+//                             white: {
+//                                 par: 5,
+//                                 handicap: 7,
+//                                 distance: 445
+//                             },
+//                             red: {
+//                                 par: 5,
+//                                 handicap: 6,
+//                                 distance: 377
+//                             }
+//                         },
+//                         {
+//                             holenum: 10,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 14,
+//                                 distance: 122
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 13,
+//                                 distance: 115
+//                             }
+//                         },
+//                         {
+//                             holenum: 11,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 18,
+//                                 distance: 260
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 15,
+//                                 distance: 244
+//                             }
+//                         },
+//                         {
+//                             holenum: 12,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 2,
+//                                 distance: 370
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 2,
+//                                 distance: 331
+//                             }
+//                         },
+//                         {
+//                             holenum: 13,
+//                             white: {
+//                                 par: 5,
+//                                 handicap: 16,
+//                                 distance: 435
+//                             },
+//                             red: {
+//                                 par: 5,
+//                                 handicap: 9,
+//                                 distance: 382
+//                             }
+//                         },
+//                         {
+//                             holenum: 14,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 4,
+//                                 distance: 160
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 16,
+//                                 distance: 122
+//                             }
+//                         },
+//                         {
+//                             holenum: 15,
+//                             white: {
+//                                 par: 5,
+//                                 handicap: 6,
+//                                 distance: 486
+//                             },
+//                             red: {
+//                                 par: 5,
+//                                 handicap: 5,
+//                                 distance: 395
+//                             }
+//                         },
+//                         {
+//                             holenum: 16,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 12,
+//                                 distance: 148
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 17,
+//                                 distance: 112
+//                             }
+//                         },
+//                         {
+//                             holenum: 17,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 8,
+//                                 distance: 333
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 4,
+//                                 distance: 307
+//                             }
+//                         },
+//                         {
+//                             holenum: 18,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 10,
+//                                 distance: 306
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 12,
+//                                 distance: 290
+//                             }
+//                         }
+//                     ]
+//                 };
+//             } else if(courseId == 2) {
+//                 data = {
+//                     coursename: 'Burnley',
+//                     holes: [
+//                         {
+//                             holenum: 1,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 14,
+//                                 distance: 284
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 13,
+//                                 distance: 268
+//                             }
+//                         },
+//                         {
+//                             holenum: 2,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 12,
+//                                 distance: 255
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 11,
+//                                 distance: 243
+//                             }
+//                         },
+//                         {
+//                             holenum: 3,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 4,
+//                                 distance: 323
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 3,
+//                                 distance: 303
+//                             }
+//                         },
+//                         {
+//                             holenum: 4,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 6,
+//                                 distance: 313
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 5,
+//                                 distance: 305
+//                             }
+//                         },
+//                         {
+//                             holenum: 5,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 8,
+//                                 distance: 287
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 7,
+//                                 distance: 280
+//                             }
+//                         },
+//                         {
+//                             holenum: 6,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 18,
+//                                 distance: 117
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 17,
+//                                 distance: 107
+//                             }
+//                         },
+//                         {
+//                             holenum: 7,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 10,
+//                                 distance: 150
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 9,
+//                                 distance: 148
+//                             }
+//                         },
+//                         {
+//                             holenum: 8,
+//                             white: {
+//                                 par: 4,
+//                                 handicap: 16,
+//                                 distance: 225
+//                             },
+//                             red: {
+//                                 par: 4,
+//                                 handicap: 15,
+//                                 distance: 210
+//                             }
+//                         },
+//                         {
+//                             holenum: 9,
+//                             white: {
+//                                 par: 3,
+//                                 handicap: 2,
+//                                 distance: 182
+//                             },
+//                             red: {
+//                                 par: 3,
+//                                 handicap: 1,
+//                                 distance: 174
+//                             }
+//                         }
+//                     ]
+//                 };
+//             }
+//             return data;
+//         }
+//     },
+//     courses: {
+//         urlExp: "api/v1/courses",
+//         httpMethod: "GET",
+//         handler: function (context) {
+//             return  [
+//                 { id: 1, name: 'Yarra Bend' },
+//                 { id: 2, name: 'Burnley' },
+//                 { id: 3, name: 'Ivanhoe' },
+//                 { id: 4, name: 'Wattle Park' }
+//             ];
+//         }
+//     },
+//     getHole: {
+//         urlExp: "api/v1/hole",
+//         httpMethod: "POST",
+//         handler: function(context) {
+//             var randId = parseInt((Math.random(999999999)) * 100000000000000000);
+//             return {
+//                 'id': randId,
+//                 'score': 0,
+//                 'putts': 0,
+//                 'fairways': 0,
+//                 'bunkers': 0,
+//                 'club': ''
+//             }
+//         }
+//     },
+//     saveHole: {
+//         urlExp: "api/v1/hole",
+//         httpMethod: "PUT",
+//         handler: function(context) {
+//             return {
+//                 'id': context.data.id,
+//                 'score': context.data.score,
+//                 'putts': context.data.putts,
+//                 'fairways': context.data.fairways,
+//                 'bunkers': context.data.bunkers,
+//                 'club': context.data.club
+//             }
+//         }
+//     }
+// });
 
 
 // Models
@@ -432,6 +446,11 @@ var RoundHoleModel = Backbone.Model.extend({
         'fairways': 0,
         'bunkers': 0,
         'club': ''
+    },
+    initialize: function() {
+        this.listenTo(this, 'change', function(e) {
+            window.vent.trigger('showScorecard', courseId);
+        });
     }
 });
 
@@ -517,6 +536,9 @@ var Round = Backbone.Marionette.CollectionView.extend({
 });
 var Score = Backbone.Marionette.ItemView.extend({
     template: GolfApp.Templates['score'],
+    events: {
+        'click button': 'saveScore'
+    },
     onRender: function(){
         this.getPosition();
     },
@@ -533,6 +555,21 @@ var Score = Backbone.Marionette.ItemView.extend({
             var map        = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
             var marker     = new google.maps.Marker({ position: myLatlng, map: map });
         }
+    },
+    saveScore: function() {
+        var score = this.$el.find('input[name="score"]').val();
+        var putts = this.$el.find('input[name="putts"]').val();
+        var fairways = this.$el.find('input[name="fairways"]').val();
+        var bunkers = this.$el.find('input[name="bunkers"]').val();
+        var club = this.$el.find('input[name="club"]').val();
+        this.model.set({
+            'score': score,
+            'putts': putts,
+            'fairways': fairways,
+            'bunkers': bunkers,
+            'club': club
+        });
+        this.model.save();
     }
 });
 
