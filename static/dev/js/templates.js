@@ -10,16 +10,16 @@ this["GolfApp"]["Templates"]["course-details"] = Handlebars.template({"compiler"
 },"useData":true});
 
 this["GolfApp"]["Templates"]["course-hole"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var stack1, helper, alias1=this.escapeExpression, alias2=this.lambda;
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "<li>"
-    + alias1(((helper = (helper = helpers.holenum || (depth0 != null ? depth0.holenum : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"holenum","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.hole_num || (depth0 != null ? depth0.hole_num : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"hole_num","hash":{},"data":data}) : helper)))
     + "</li>\n<li>"
-    + alias1(alias2(((stack1 = (depth0 != null ? depth0.white : depth0)) != null ? stack1.distance : stack1), depth0))
+    + alias3(((helper = (helper = helpers.white_distance || (depth0 != null ? depth0.white_distance : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"white_distance","hash":{},"data":data}) : helper)))
     + "</li>\n<li>"
-    + alias1(alias2(((stack1 = (depth0 != null ? depth0.red : depth0)) != null ? stack1.distance : stack1), depth0))
+    + alias3(((helper = (helper = helpers.red_distance || (depth0 != null ? depth0.red_distance : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"red_distance","hash":{},"data":data}) : helper)))
     + "</li>\n<li>"
-    + alias1(alias2(((stack1 = (depth0 != null ? depth0.white : depth0)) != null ? stack1.par : stack1), depth0))
+    + alias3(((helper = (helper = helpers.white_par || (depth0 != null ? depth0.white_par : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"white_par","hash":{},"data":data}) : helper)))
     + "</li>";
 },"useData":true});
 

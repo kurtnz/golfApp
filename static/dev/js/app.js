@@ -421,12 +421,13 @@
 // Models
 // ----------------------------------------------
 
+var CourseHoleModel = Backbone.Model.extend();
 var CourseModel = Backbone.Model.extend({
     url: function() {
         return this.instanceUrl;
     },
     initialize: function(props) {
-        this.url = 'api/v1/course/' + props.url;
+        this.url = '/api/v1/course/' + props.url;
         this.listenTo(this, 'sync', this.setCollection);
     },
     setCollection: function() {
@@ -439,7 +440,7 @@ var CourseModel = Backbone.Model.extend({
 });
 var HoleModel = Backbone.Model.extend();
 var RoundHoleModel = Backbone.Model.extend({
-    url: 'api/v1/hole',
+    url: '/api/v1/hole',
     defaults: {
         'score': 0,
         'putts': 0,
@@ -458,8 +459,14 @@ var RoundHoleModel = Backbone.Model.extend({
 // Collections
 // ----------------------------------------------
 
+var CourseHolesCollection = Backbone.Collection.extend({
+    model: CourseHoleModel,
+    initialize: function(models, props) {
+        this.url = '/api/v1/course_hole/' + props.id
+    }
+});
 var CoursesCollection = Backbone.Collection.extend({
-    url: 'api/v1/courses'
+    url: '/api/v1/courses'
 });
 var HolesCollection = Backbone.Collection.extend({
     model: HoleModel
@@ -489,11 +496,6 @@ var HomeView = Backbone.Marionette.ItemView.extend({
         window.vent.trigger('showCourses');
     }
 });
-var CourseHoleView = Backbone.Marionette.ItemView.extend({
-    template: GolfApp.Templates['course-hole'],
-    tagName: 'ul',
-    className: 'course__hole'
-});
 var CourseView = Backbone.Marionette.ItemView.extend({
     template: GolfApp.Templates['course'],
     events: {
@@ -505,13 +507,17 @@ var CourseView = Backbone.Marionette.ItemView.extend({
         window.vent.trigger('showScorecard', courseId);
     }
 });
+var CourseHoleView = Backbone.Marionette.ItemView.extend({
+    template: GolfApp.Templates['course-hole'],
+    tagName: 'ul',
+    className: 'course__hole'
+});
 var Course = Backbone.Marionette.CompositeView.extend({
     template: GolfApp.Templates['course-details'],
     childView: CourseHoleView,
     childViewContainer: '.course__holes',
     initialize: function() {
         this.listenTo(this.model, 'sync', this.render);
-        this.collection = this.model.holes;
     }
 });
 var Courses = Backbone.Marionette.CollectionView.extend({
@@ -557,11 +563,11 @@ var Score = Backbone.Marionette.ItemView.extend({
         }
     },
     saveScore: function() {
-        var score = this.$el.find('input[name="score"]').val();
-        var putts = this.$el.find('input[name="putts"]').val();
+        var score 	 = this.$el.find('input[name="score"]').val();
+        var putts 	 = this.$el.find('input[name="putts"]').val();
         var fairways = this.$el.find('input[name="fairways"]').val();
-        var bunkers = this.$el.find('input[name="bunkers"]').val();
-        var club = this.$el.find('input[name="club"]').val();
+        var bunkers  = this.$el.find('input[name="bunkers"]').val();
+        var club     = this.$el.find('input[name="club"]').val();
         this.model.set({
             'score': score,
             'putts': putts,
@@ -588,10 +594,14 @@ GolfApp.addRegions({
 
 var controller = {
     home: function() {
+        console.log('Show home');
+
         var homeView = new HomeView();
         GolfApp.appRegion.show(homeView);
     },
     showCourses: function() {
+        console.log('Show courses');
+
         var coursesCollection = new CoursesCollection();
         var coursesCollectionFetch = coursesCollection.fetch();
         coursesCollectionFetch.done(function() {
@@ -602,12 +612,18 @@ var controller = {
         });
     },
     showScorecard: function(courseId) {
-        var courseModel = new CourseModel({url: courseId});
-        var fetchCourseModel = courseModel.fetch();
-        fetchCourseModel.done(function() {
-            var numHoles = courseModel.holes.length;
+        console.log('Show scorecard');
+
+        var courseModel           = new CourseModel({url: courseId});
+        var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
+
+        $.when(courseModel.fetch(), courseHolesCollection.fetch() ).done(function() {
+            var courseId = courseModel.get('id');
+
+            var numHoles = courseHolesCollection.length;
             var course = new Course({
-                model: courseModel
+                model: courseModel,
+                collection: courseHolesCollection
             });
             var roundCollection = new RoundCollection(null, {numHoles:numHoles});
             var round = new Round({
@@ -618,6 +634,8 @@ var controller = {
         });
     },
     editScore: function(holeModel) {
+        console.log('Edit scorecard');
+
         var score = new Score({
             model: holeModel
         });
