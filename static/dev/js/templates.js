@@ -5,7 +5,7 @@ this["GolfApp"]["Templates"]["course-details"] = Handlebars.template({"compiler"
     var helper;
 
   return "<h1>"
-    + this.escapeExpression(((helper = (helper = helpers.coursename || (depth0 != null ? depth0.coursename : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"coursename","hash":{},"data":data}) : helper)))
+    + this.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
     + "</h1>\n<ul class=\"course__head\">\n    <li>Hole</li>\n    <li>White</li>\n    <li>Red</li>\n    <li>Par</li>\n    <li>Score</li>\n    <!--<li>Putts</li>\n    <li>Fairways</li>\n    <li>Bunkers</li>\n    <li>Club</li>-->\n</ul>\n<div class=\"course__holes\"></div>\n<div id=\"course-score\" class=\"course__scores\"></div>";
 },"useData":true});
 

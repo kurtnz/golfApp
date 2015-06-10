@@ -605,9 +605,7 @@ var controller = {
         var coursesCollection = new CoursesCollection();
         var coursesCollectionFetch = coursesCollection.fetch();
         coursesCollectionFetch.done(function() {
-            var courses = new Courses({
-                collection: coursesCollection
-            });
+            var courses = new Courses({ collection: coursesCollection });
             GolfApp.appRegion.show(courses);
         });
     },
@@ -618,17 +616,12 @@ var controller = {
         var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
 
         $.when(courseModel.fetch(), courseHolesCollection.fetch() ).done(function() {
-            var courseId = courseModel.get('id');
-
-            var numHoles = courseHolesCollection.length;
-            var course = new Course({
-                model: courseModel,
-                collection: courseHolesCollection
-            });
+            var courseId 		= courseModel.get('id');
+            var numHoles 		= courseHolesCollection.length;
+            var course   		= new Course({ model: courseModel, collection: courseHolesCollection });
             var roundCollection = new RoundCollection(null, {numHoles:numHoles});
-            var round = new Round({
-                collection: roundCollection
-            });
+            var round 			= new Round({ collection: roundCollection });
+
             GolfApp.appRegion.show(course);
             GolfApp.scoreRegion.show(round);
         });
