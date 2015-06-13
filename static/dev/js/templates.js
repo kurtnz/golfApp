@@ -35,7 +35,7 @@ this["GolfApp"]["Templates"]["home"] = Handlebars.template({"compiler":[6,">= 2.
     return "<a href=\"#\" class=\"new-round\">New round</a>";
 },"useData":true});
 
-this["GolfApp"]["Templates"]["round-hole"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+this["GolfApp"]["Templates"]["score-hole"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "<a href=\"#\">"

@@ -42,6 +42,19 @@ $app->get('/', function() use ($app) {
  * API
  */
 
+
+
+/**
+ * Create Round
+ */
+$app->post('/api/v1/round', function (Request $request) use ($app) {
+    $course_id = $request->get('course_id');
+    $sql = "INSERT INTO round (course_id) VALUES (" . $course_id . ")";
+    $round = $app['db']->executeUpdate($sql);
+    return $app['db']->lastInsertId();
+});
+
+
 /**
   * Get courses
   */
