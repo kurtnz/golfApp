@@ -1,3 +1,5 @@
+"use strict";
+
 // Models
 // ----------------------------------------------
 
@@ -21,8 +23,8 @@ var CourseModel = Backbone.Model.extend({
         }
     }
 });
-var HoleModel = Backbone.Model.extend();
-var ScoreHoleModel = Backbone.Model.extend({
+var CourseHoleModel = Backbone.Model.extend();
+var HoleModel = Backbone.Model.extend({
     url: '/api/v1/hole',
     defaults: {
         'score': 0,
@@ -37,6 +39,7 @@ var ScoreHoleModel = Backbone.Model.extend({
         });
     }
 });
+var SingleHoleModel = Backbone.Model.extend({urlRoot : '/api/v1/hole'});
 
 
 // Collections
@@ -52,16 +55,35 @@ var CoursesCollection = Backbone.Collection.extend({
     url: '/api/v1/courses'
 });
 var HolesCollection = Backbone.Collection.extend({
-    model: HoleModel
+    model: CourseHoleModel
 });
 var ScoreCollection = Backbone.Collection.extend({
-    model: ScoreHoleModel,
+    model: HoleModel,
     initialize: function(models, props) {
         for( var i=0; i<props.numHoles; i++ ) {
             var roundId = window.roundModel.get('id');
-            var hole = new ScoreHoleModel({ round_id: roundId });
+
+            // Get existing hole
+            // var hole = new HoleModel({ 
+            //     round_id: roundId
+            // });
+            // $.when( hole.fetch() ).done(function() {
+            //     console.log(hole);
+            // });
+
+            var hole = new HoleModel();
+            hole.save({ round_id: roundId , hole_index: i+1 }, {
+                success: function(model, response, options) {
+                    if( hole.isNew() ) {
+                        model.set({id: response});
+                        console.log('hole is new');
+                    } else {
+                        console.log('hole is not new');
+                    }
+                    console.log(hole);
+                }
+            });
             this.add(hole);
-            hole.save();
         }
     }
 });
@@ -138,6 +160,10 @@ var Courses = Backbone.Marionette.CollectionView.extend({
     childView: CourseView
 });
 
+
+/**
+ * [ScoreHole Individual hole score]
+ */
 var ScoreHole = Backbone.Marionette.ItemView.extend({
     template: GolfApp.Templates['score-hole'],
     tagName: 'li',
@@ -147,8 +173,8 @@ var ScoreHole = Backbone.Marionette.ItemView.extend({
     },
     editScore: function(e) {
         e.preventDefault();
-        var holeModel = this.model;
-        window.vent.trigger('editScore', holeModel);
+        var holeId = this.model.get('id');
+        window.vent.trigger('editScore', holeId);
     }
 });
 var ScoreCard = Backbone.Marionette.CollectionView.extend({
@@ -161,7 +187,7 @@ var Score = Backbone.Marionette.ItemView.extend({
         'click button': 'saveScore'
     },
     onRender: function(){
-        this.getPosition();
+        // this.getPosition();
     },
     getPosition: function() {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -184,14 +210,17 @@ var Score = Backbone.Marionette.ItemView.extend({
         var bunkers  = this.$el.find('input[name="bunkers"]').val();
         var club     = this.$el.find('input[name="club"]').val();
 
-        this.model.set({
+        // Update hole data
+        this.model.save({
             'score': score,
             'putts': putts,
             'fairways': fairways,
             'bunkers': bunkers,
             'club': club
         });
-        this.model.save();
+
+        // Show scorecard
+        window.vent.trigger('showScorecard');
     }
 });
 
@@ -211,15 +240,11 @@ GolfApp.addRegions({
 var controller = {
 
     home: function() {
-        console.log('Show home');
-
         var homeView = new HomeView();
         GolfApp.appRegion.show(homeView);
     },
 
     showCourses: function() {
-        console.log('Show courses');
-
         var coursesCollection = new CoursesCollection();
         var coursesCollectionFetch = coursesCollection.fetch();
         coursesCollectionFetch.done(function() {
@@ -229,10 +254,6 @@ var controller = {
     },
 
     showScorecard: function(roundId) {
-        console.log('Show scorecard');
-
-        // TODO - Get scorecard from DB if exists or created new scorecard based on the round id
-
         var courseId              = window.roundModel.get('course_id');
         var courseModel           = new CourseModel({url: courseId});
         var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
@@ -248,21 +269,23 @@ var controller = {
         });
     },
 
-    editScore: function(holeModel) {
-        console.log('Edit scorecard');
-
-        var score = new Score({
-            model: holeModel
+    editScore: function(holeId) {
+        var holeModel = new SingleHoleModel({ id: holeId });
+        $.when( holeModel.fetch() ).done(function() {
+            var score = new Score({
+                model: holeModel
+            });
+            GolfApp.appRegion.show(score);
         });
-        GolfApp.appRegion.show(score);
     }
 
 };
 
-Router = Backbone.Marionette.AppRouter.extend({
+window.Router = Backbone.Marionette.AppRouter.extend({
     appRoutes: {
         'courses': 'showCourses',
         'scorecard/:roundId': 'showScorecard',
+        'hole/:holeId': 'editScore',
         '': 'home'
     }
 });
@@ -279,8 +302,8 @@ GolfApp.on('start', function() {
     // Event aggregator
     window.vent = new Backbone.Wreqr.EventAggregator();
 
-    // Check for previous round
-    console.log('check for previous round');
+    // TODO - Check for previous round
+    // console.log('check for previous round');
 
     // Home
     vent.on('showHome', function() {
@@ -299,10 +322,8 @@ GolfApp.on('start', function() {
     });
 
     // Edit score
-    vent.on('editScore', function(holeModel) {
-        // TODO - pass holemodel to hole view so we can switch back to showcard after save
-        // controller.editScore(holeModel);
-        GolfApp.router.navigate('/hole/' + window.courseId, {trigger: true});
+    vent.on('editScore', function(holeId) {
+        GolfApp.router.navigate('/hole/' + holeId, {trigger: true});
     });
 
     // Start history

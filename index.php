@@ -86,21 +86,61 @@ $app->get('/api/v1/course_hole/{id}', function ($id) use ($app) {
 
 
 /**
- * Create hole
+ * Update hole
  */
-$app->post('/api/v1/hole', function (Request $request) use ($app) {
-    $score     = $request->get('score');
-    $bunkers   = $request->get('bunkers');
-    $fairways  = $request->get('fairways');
-    $putts     = $request->get('putts');
+$app->put('/api/v1/hole/{id}', function (Request $request, $id) use ($app) {
+    $score      = $request->get('score');
+    $bunkers    = $request->get('bunkers');
+    $fairways   = $request->get('fairways');
+    $putts      = $request->get('putts');
     // $club      = $request->get('club');
     // $scorecard = $request->get('scorecard');
 
-    $sql = "INSERT INTO hole (score, bunkers, fairways, putts) VALUES (" . $score . ", " . $bunkers . ", " . $fairways . ", " . $putts . ")";
+    $sql = "UPDATE hole SET score = '" . $score . "', bunkers = '" . $bunkers . "', fairways = '" . $fairways . "', putts = '" . $putts . "' WHERE id = " . $id;
 
     $hole = $app['db']->executeUpdate($sql);
 
-    return $app['db']->lastInsertId();
+    return new Response('Hole updated', 200);
+});
+
+/**
+ * Get hole
+ */
+$app->get('/api/v1/hole/{id}', function ($id) use ($app) {
+    $sql = "SELECT * FROM hole WHERE id = ?";
+    $hole = $app['db']->fetchAssoc($sql, array((int) $id));
+    return $app->json($hole);
+});
+
+/**
+ * Create hole
+ */
+$app->post('/api/v1/hole', function (Request $request) use ($app) {
+    $score      = $request->get('score');
+    $bunkers    = $request->get('bunkers');
+    $fairways   = $request->get('fairways');
+    $putts      = $request->get('putts');
+    $round_id   = $request->get('round_id');
+    $hole_index = $request->get('hole_index');
+    // $club      = $request->get('club');
+    // $scorecard = $request->get('scorecard');
+
+    $sql = "SELECT * from hole WHERE round_id = " . $round_id;
+    $hole = $app['db']->fetchAssoc($sql, array((int) $id));
+
+    // Record doesn't exists
+    if (is_bool($hole)) {
+
+        $sql = "INSERT INTO hole (round_id, hole_index, score, bunkers, fairways, putts) VALUES (". $round_id .", ". $hole_index .", " . $score . ", " . $bunkers . ", " . $fairways . ", " . $putts . ")";
+        $hole = $app['db']->executeUpdate($sql);
+        return $app['db']->lastInsertId();
+        
+    // Record exists
+    } else {
+
+        return $app->json($hole);
+
+    }
 });
 
 
