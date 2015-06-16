@@ -125,22 +125,55 @@ $app->post('/api/v1/hole', function (Request $request) use ($app) {
     // $club      = $request->get('club');
     // $scorecard = $request->get('scorecard');
 
-    $sql = "SELECT * from hole WHERE round_id = " . $round_id;
-    $hole = $app['db']->fetchAssoc($sql, array((int) $id));
+    $sql = "INSERT INTO hole (round_id, hole_index, score, bunkers, fairways, putts) VALUES (". $round_id .", ". $hole_index .", " . $score . ", " . $bunkers . ", " . $fairways . ", " . $putts . ")";
+    $hole = $app['db']->executeUpdate($sql);
+    return $app['db']->lastInsertId();
 
-    // Record doesn't exists
-    if (is_bool($hole)) {
+    // $sql = "SELECT * from hole WHERE round_id = " . $round_id;
+    // $hole = $app['db']->fetchAssoc($sql, array((int) $id));
 
-        $sql = "INSERT INTO hole (round_id, hole_index, score, bunkers, fairways, putts) VALUES (". $round_id .", ". $hole_index .", " . $score . ", " . $bunkers . ", " . $fairways . ", " . $putts . ")";
-        $hole = $app['db']->executeUpdate($sql);
-        return $app['db']->lastInsertId();
+    // // Record doesn't exists
+    // if (is_bool($hole)) {
+
+    //     $sql = "INSERT INTO hole (round_id, hole_index, score, bunkers, fairways, putts) VALUES (". $round_id .", ". $hole_index .", " . $score . ", " . $bunkers . ", " . $fairways . ", " . $putts . ")";
+    //     $hole = $app['db']->executeUpdate($sql);
+    //     return $app['db']->lastInsertId();
         
-    // Record exists
-    } else {
+    // // Record exists
+    // } else {
 
-        return $app->json($hole);
+    //     return $app->json($hole);
+
+    // }
+});
+
+
+
+/**
+ * Get holes
+ */
+$app->get('/api/v1/holes', function (Request $request) use ($app) {
+    $roundId = $request->get('roundId');
+    $numHoles = $request->get('numHoles');
+    $sql = "SELECT * FROM hole WHERE round_id = " . $roundId;
+    $holes = $app['db']->fetchAll($sql, array((int) $id));
+
+    // Check if there are already holes in DB
+    if( count($holes) == 0 ) {
+
+        for( $i=0; $i<$numHoles; $i++ ) {
+
+            $sql = "INSERT INTO hole (round_id, hole_index) VALUES ('" . $roundId . "', '" . ($i+1) . "')";
+            $hole = $app['db']->executeUpdate($sql);
+
+        }
+
+        $sql = "SELECT * FROM hole WHERE round_id = " . $roundId;
+        $holes = $app['db']->fetchAll($sql, array((int) $id));
 
     }
+
+    return $app->json($holes);
 });
 
 

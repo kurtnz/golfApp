@@ -25,7 +25,10 @@ var CourseModel = Backbone.Model.extend({
 });
 var CourseHoleModel = Backbone.Model.extend();
 var HoleModel = Backbone.Model.extend({
-    url: '/api/v1/hole',
+    urlRoot: '/api/v1/hole',
+    url: function() {
+        return this.urlRoot;
+    },
     defaults: {
         'score': 0,
         'putts': 0,
@@ -59,33 +62,28 @@ var HolesCollection = Backbone.Collection.extend({
 });
 var ScoreCollection = Backbone.Collection.extend({
     model: HoleModel,
+    url: '/api/v1/holes',
     initialize: function(models, props) {
-        for( var i=0; i<props.numHoles; i++ ) {
-            var roundId = window.roundModel.get('id');
-
-            // Get existing hole
-            // var hole = new HoleModel({ 
-            //     round_id: roundId
-            // });
-            // $.when( hole.fetch() ).done(function() {
-            //     console.log(hole);
-            // });
-
-            var hole = new HoleModel();
-            hole.save({ round_id: roundId , hole_index: i+1 }, {
-                success: function(model, response, options) {
-                    if( hole.isNew() ) {
-                        model.set({id: response});
-                        console.log('hole is new');
-                    } else {
-                        console.log('hole is not new');
-                    }
-                    console.log(hole);
-                }
-            });
-            this.add(hole);
-        }
+        
     }
+    // initialize: function(models, props) {
+    //     for( var i=0; i<props.numHoles; i++ ) {
+
+    //         var roundId = window.roundModel.get('id');
+    //         var hole    = new HoleModel();
+
+    //         this.add(hole);
+    //         hole.save({ 
+    //             round_id: roundId,
+    //             hole_index: i+1
+    //         }, {
+    //             success: function(model, response, options) {
+    //                 model.set({id: response});
+    //             }
+    //         });
+
+    //     }
+    // }
 });
 
 
@@ -253,19 +251,27 @@ var controller = {
         });
     },
 
-    showScorecard: function(roundId) {
+    showScorecard: function() {
         var courseId              = window.roundModel.get('course_id');
+        var roundId               = window.roundModel.get('id');
         var courseModel           = new CourseModel({url: courseId});
         var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
 
         $.when(courseModel.fetch(), courseHolesCollection.fetch() ).done(function() {
             var numHoles        = courseHolesCollection.length;
             var course          = new Course({ model: courseModel, collection: courseHolesCollection });
-            var scoreCollection = new ScoreCollection(null, {numHoles:numHoles});
-            var scorecard       = new ScoreCard({ collection: scoreCollection });
+            var scoreCollection = new ScoreCollection();
 
-            GolfApp.appRegion.show(course);
-            GolfApp.scoreRegion.show(scorecard);
+            // TODO - why doesn't scorecard get rendered after savign score?
+            $.when(scoreCollection.fetch({data: {roundId: roundId, numHoles: numHoles }})).done(function() {
+                var scorecard = new ScoreCard({ collection: scoreCollection });
+
+                console.log(scorecard);
+                console.log(GolfApp.scoreRegion);
+
+                GolfApp.appRegion.show(course, {forceShow: true});
+                GolfApp.scoreRegion.show(scorecard, {forceShow: true});
+            });
         });
     },
 
