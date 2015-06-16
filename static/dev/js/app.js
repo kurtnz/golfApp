@@ -266,11 +266,8 @@ var controller = {
             $.when(scoreCollection.fetch({data: {roundId: roundId, numHoles: numHoles }})).done(function() {
                 var scorecard = new ScoreCard({ collection: scoreCollection });
 
-                console.log(scorecard);
-                console.log(GolfApp.scoreRegion);
-
-                GolfApp.appRegion.show(course, {forceShow: true});
-                GolfApp.scoreRegion.show(scorecard, {forceShow: true});
+                GolfApp.appRegion.show(course);
+                GolfApp.scoreRegion.reset().show(scorecard, {forceShow: true});
             });
         });
     },
