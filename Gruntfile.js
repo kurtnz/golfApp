@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          'static/dist/js/app.min.js':
+          'static/dist/js/infastructure.js':
           [
             'static/dev/js/libs/jquery-1.11.2.min.js',
             'static/dev/js/libs/underscore.js',
@@ -24,9 +24,9 @@ module.exports = function(grunt) {
             'static/dev/js/libs/backbone-deep-model.js',
             'static/dev/js/libs/backbone.wreqr.js',
             'static/dev/js/libs/google.maps.js',
-            'static/dev/js/app.init.js',
-            'static/dev/js/templates.js',
-            'static/dev/js/app.js'
+            // 'static/dev/js/app.init.js',
+            // 'static/dev/js/templates.js',
+            // 'static/dev/js/app.js'
           ]
         }
       }
