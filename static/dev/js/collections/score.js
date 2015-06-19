@@ -1,3 +1,7 @@
+'use strict';
+
+var HoleModel = require("../models/hole");
+
 var ScoreCollection = Backbone.Collection.extend({
     model: HoleModel,
     url: '/api/v1/holes',

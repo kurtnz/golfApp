@@ -1,7 +1,9 @@
-var CourseHoleView = require("views/coursehole");
+'use strict';
+
+var CourseHoleView = require("../views/coursehole");
 
 var Course = Backbone.Marionette.CompositeView.extend({
-    template: GolfApp.Templates['course-details'],
+    template: require('./templates/course-details.hbs'),
     childView: CourseHoleView,
     childViewContainer: '.course__holes',
     initialize: function() {

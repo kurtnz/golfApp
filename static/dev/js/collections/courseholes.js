@@ -1,4 +1,6 @@
-var CourseHoleModel = require("models/coursehole");
+'use strict';
+
+var CourseHoleModel = require("../models/coursehole");
 
 var CourseHolesCollection = Backbone.Collection.extend({
     model: CourseHoleModel,

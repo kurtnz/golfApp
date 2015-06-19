@@ -2,7 +2,24 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+
+    browserify: {
+        app: {
+            files: {
+                'static/dist/js/app.js': 'static/dev/js/app.init.js'
+            },
+            options: {
+                //watch: true,
+                browserifyOptions: {
+                    debug: true,
+                    standalone: 'GolfApp'
+                },
+                transform: ['hbsfy', ['uglifyify', {'global': true}]]
+            }
+        }
+    },
 
 
     uglify: {
@@ -141,8 +158,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-handlebars');
+  grunt.loadNpmTasks('grunt-browserify');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'sass', 'uglify', 'autoprefixer', 'handlebars']);
+  grunt.registerTask('default', ['concat', 'sass', 'uglify', 'browserify', 'autoprefixer', 'handlebars']);
 
 };

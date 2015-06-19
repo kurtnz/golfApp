@@ -1,3 +1,5 @@
+'use strict';
+
 var HoleModel = Backbone.Model.extend({
     urlRoot: '/api/v1/hole',
     url: function() {

@@ -1,5 +1,7 @@
+'use strict';
+
 var CourseHoleView = Backbone.Marionette.ItemView.extend({
-    template: GolfApp.Templates['course-hole'],
+    template: require('./templates/course-hole.hbs'),
     tagName: 'ul',
     className: 'course__hole'
 });

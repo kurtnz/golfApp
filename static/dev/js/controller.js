@@ -1,15 +1,17 @@
-var HomeView = require("views/home");
-var Courses = require("views/courses");
-var Course = require("views/course");
-var ScoreCard = require("views/scorecard");
-var Score = require("views/score");
+'use strict';
 
-var CourseModel = require("models/course");
-var SingleHoleModel = require("models/singlehole");
+var HomeView = require("./views/home");
+var Courses = require("./views/courses");
+var Course = require("./views/course");
+var ScoreCard = require("./views/scorecard");
+var Score = require("./views/score");
 
-var CoursesCollection = require("collections/courses");
-var CourseHolesCollection = require("collections/courseholes");
-var ScoreCollection = require("collections/score");
+var CourseModel = require("./models/course");
+var SingleHoleModel = require("./models/singlehole");
+
+var CoursesCollection = require("./collections/courses");
+var CourseHolesCollection = require("./collections/courseholes");
+var ScoreCollection = require("./collections/score");
 
 
 
@@ -17,7 +19,7 @@ var controller = {
 
     home: function() {
         var homeView = new HomeView();
-        GolfApp.appRegion.show(homeView);
+        app.appRegion.show(homeView);
     },
 
     showCourses: function() {
@@ -25,7 +27,7 @@ var controller = {
         var coursesCollectionFetch = coursesCollection.fetch();
         coursesCollectionFetch.done(function() {
             var courses = new Courses({ collection: coursesCollection });
-            GolfApp.appRegion.show(courses);
+            app.appRegion.show(courses);
         });
     },
 
@@ -43,8 +45,8 @@ var controller = {
             $.when(scoreCollection.fetch({data: {roundId: roundId, numHoles: numHoles }})).done(function() {
                 var scorecard = new ScoreCard({ collection: scoreCollection });
 
-                GolfApp.appRegion.show(course);
-                GolfApp.scoreRegion.reset().show(scorecard, {forceShow: true});
+                app.appRegion.show(course);
+                app.scoreRegion.reset().show(scorecard, {forceShow: true});
             });
         });
     },
@@ -55,7 +57,7 @@ var controller = {
             var score = new Score({
                 model: holeModel
             });
-            GolfApp.appRegion.show(score);
+            app.appRegion.show(score);
         });
     }
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var controller = require("./controller");
 
 window.Router = Backbone.Marionette.AppRouter.extend({

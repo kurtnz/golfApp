@@ -1,3 +1,5 @@
+'use strict';
+
 window.app = require("./app");
 var router = require("./router");
 
@@ -18,25 +20,24 @@ app.on('start', function() {
     // TODO - Check for previous round
     // console.log('check for previous round');
 
-    Home
     vent.on('showHome', function() {
-        app.router.navigate('', {trigger: true});
+        router.navigate('', {trigger: true});
     });
 
     // Course select
     vent.on('showCourses', function() {
-        app.router.navigate('/courses', {trigger: true});
+        router.navigate('/courses', {trigger: true});
     });
 
     // Scorecard
     vent.on('showScorecard', function() {
         var roundId = window.roundModel.get('id');
-        app.router.navigate('/scorecard/' + roundId, {trigger: true});
+        router.navigate('/scorecard/' + roundId, {trigger: true});
     });
 
     // Edit score
     vent.on('editScore', function(holeId) {
-        app.router.navigate('/hole/' + holeId, {trigger: true});
+        router.navigate('/hole/' + holeId, {trigger: true});
     });
 
     // Start history

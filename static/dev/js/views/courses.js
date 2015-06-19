@@ -1,4 +1,6 @@
-var CourseView = require("views/courseview");
+'use strict';
+
+var CourseView = require("../views/courseview");
 
 var Courses = Backbone.Marionette.CollectionView.extend({
     childView: CourseView

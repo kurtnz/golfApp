@@ -1,4 +1,6 @@
-var HolesCollection = require("collections/holes");
+'use strict';
+
+var HolesCollection = require("../collections/holes");
 
 var CourseModel = Backbone.Model.extend({
     url: function() {

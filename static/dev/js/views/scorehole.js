@@ -1,5 +1,7 @@
+'use strict';
+
 var ScoreHole = Backbone.Marionette.ItemView.extend({
-    template: GolfApp.Templates['score-hole'],
+    template: require('./templates/score-hole.hbs'),
     tagName: 'li',
     className: 'course__score',
     events: {

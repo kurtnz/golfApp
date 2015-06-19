@@ -1,7 +1,9 @@
-var RoundModel = require("models/round");
+'use strict';
+
+var RoundModel = require("../models/round");
 
 var HomeView = Backbone.Marionette.ItemView.extend({
-    template: app.Templates['home'],
+    template: require('./templates/home.hbs'),
     events: {
         'click .new-round': 'newRound'
     },

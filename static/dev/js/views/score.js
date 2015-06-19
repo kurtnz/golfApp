@@ -1,5 +1,7 @@
+'use strict';
+
 var Score = Backbone.Marionette.ItemView.extend({
-    template: GolfApp.Templates['score'],
+    template: require('./templates/score.hbs'),
     events: {
         'click button': 'saveScore'
     },

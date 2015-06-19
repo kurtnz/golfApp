@@ -1,5 +1,7 @@
+'use strict';
+
 var CourseView = Backbone.Marionette.ItemView.extend({
-    template: GolfApp.Templates['course'],
+    template: require('./templates/course.hbs'),
     events: {
         'click a': 'selectCourse'
     },
