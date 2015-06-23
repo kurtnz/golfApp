@@ -7,6 +7,7 @@ var Course = require("./views/course");
 var ScoreCard = require("./views/scorecard");
 var Score = require("./views/score");
 
+var ProfileModel = require("./models/profile");
 var CourseModel = require("./models/course");
 var SingleHoleModel = require("./models/singlehole");
 
@@ -23,46 +24,70 @@ var controller = {
     },
 
     home: function() {
-        var homeView = new HomeView();
-        app.appRegion.show(homeView);
+        var profileModel = new ProfileModel();
+        var profileModelFetch = profileModel.fetch({type: 'POST'});
+        profileModelFetch.done(function(profile) {
+
+            var homeView = new HomeView();
+            app.appRegion.show(homeView);
+
+        });
     },
 
     showCourses: function() {
-        var coursesCollection = new CoursesCollection();
-        var coursesCollectionFetch = coursesCollection.fetch();
-        coursesCollectionFetch.done(function() {
-            var courses = new Courses({ collection: coursesCollection });
-            app.appRegion.show(courses);
+        var profileModel = new ProfileModel();
+        var profileModelFetch = profileModel.fetch({type: 'POST'});
+        profileModelFetch.done(function(profile) {
+
+            var coursesCollection = new CoursesCollection();
+            var coursesCollectionFetch = coursesCollection.fetch();
+            coursesCollectionFetch.done(function() {
+                var courses = new Courses({ collection: coursesCollection });
+                app.appRegion.show(courses);
+            });
+
         });
     },
 
     showScorecard: function() {
-        var courseId              = window.roundModel.get('course_id');
-        var roundId               = window.roundModel.get('id');
-        var courseModel           = new CourseModel({url: courseId});
-        var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
+        var profileModel = new ProfileModel();
+        var profileModelFetch = profileModel.fetch({type: 'POST'});
+        profileModelFetch.done(function(profile) {
 
-        $.when(courseModel.fetch(), courseHolesCollection.fetch() ).done(function() {
-            var numHoles        = courseHolesCollection.length;
-            var course          = new Course({ model: courseModel, collection: courseHolesCollection });
-            var scoreCollection = new ScoreCollection();
+            var courseId              = window.roundModel.get('course_id');
+            var roundId               = window.roundModel.get('id');
+            var courseModel           = new CourseModel({url: courseId});
+            var courseHolesCollection = new CourseHolesCollection(null, {id: courseId});
 
-            $.when(scoreCollection.fetch({data: {roundId: roundId, numHoles: numHoles }})).done(function() {
-                var scorecard = new ScoreCard({ collection: scoreCollection });
+            $.when(courseModel.fetch(), courseHolesCollection.fetch() ).done(function() {
+                var numHoles        = courseHolesCollection.length;
+                var course          = new Course({ model: courseModel, collection: courseHolesCollection });
+                var scoreCollection = new ScoreCollection();
 
-                app.appRegion.show(course);
-                app.scoreRegion.reset().show(scorecard, {forceShow: true});
+                $.when(scoreCollection.fetch({data: {roundId: roundId, numHoles: numHoles }})).done(function() {
+                    var scorecard = new ScoreCard({ collection: scoreCollection });
+
+                    app.appRegion.show(course);
+                    app.scoreRegion.reset().show(scorecard, {forceShow: true});
+                });
             });
+
         });
     },
 
     editScore: function(holeId) {
-        var holeModel = new SingleHoleModel({ id: holeId });
-        $.when( holeModel.fetch() ).done(function() {
-            var score = new Score({
-                model: holeModel
+        var profileModel = new ProfileModel();
+        var profileModelFetch = profileModel.fetch({type: 'POST'});
+        profileModelFetch.done(function(profile) {
+
+            var holeModel = new SingleHoleModel({ id: holeId });
+            $.when( holeModel.fetch() ).done(function() {
+                var score = new Score({
+                    model: holeModel
+                });
+                app.appRegion.show(score);
             });
-            app.appRegion.show(score);
+
         });
     }
 

@@ -22,7 +22,6 @@ jQuery.ajaxSetup({
 
     // Append token
     beforeSend: function(xhr) {
-        console.log('check login token');
         var token = sessionStorage.getItem('golf_auth_token');
         if (token) {
             xhr.setRequestHeader('JWT-Authorization', token);
@@ -32,7 +31,11 @@ jQuery.ajaxSetup({
     // Response codes
     statusCode: {
         401: function () {
-            console.log('login error - show login');
+            console.log('401 error');
+            vent.trigger('showLogin');
+        },
+        400: function () {
+            console.log('400 error');
             vent.trigger('showLogin');
         }
     }

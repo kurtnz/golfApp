@@ -37,16 +37,16 @@ $app['security.firewalls'] = array(
         'pattern' => 'login',
         'anonymous' => true,
     ],
-    'secured' => array(
-        'pattern' => '^.*$',
-        'logout' => array('logout_path' => '/logout'),
-        'users' => $app['users'],
-        'jwt' => array(
-            'use_forward' => true,
-            'require_previous_session' => false,
-            'stateless' => true,
-        )
-    ),
+    // 'secured' => array(
+    //     'pattern' => '^.*$',
+    //     'logout' => array('logout_path' => '/logout'),
+    //     'users' => $app['users'],
+    //     'jwt' => array(
+    //         'use_forward' => true,
+    //         'require_previous_session' => false,
+    //         'stateless' => true,
+    //     )
+    // ),
 );
 $app->register(new Silex\Provider\SecurityServiceProvider());
 $app->register(new Silex\Provider\SecurityJWTServiceProvider());
@@ -89,6 +89,9 @@ $app->get('/login', function() use ($app) {
  * API
  */
 
+/**
+ * Login
+ */
 $app->post('/api/v1/login.json', function(Request $request) use ($app){
     $vars = json_decode($request->getContent(), true);
 
@@ -120,8 +123,32 @@ $app->post('/api/v1/login.json', function(Request $request) use ($app){
     return $app->json($response, ($response['success'] == true ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST));
 });
 
-$app->get('/api/v1/protected_resource', function() use ($app){
-    return $app->json(['hello' => 'world']);
+
+/**
+ * Get profile - check JWT token
+ */
+$app->post('/api/v1/profile.json', function(Request $request) use ($app){
+    $token = $request->headers->get('JWT-Authorization');
+
+    try {
+
+        if (! $tokenDecode = $app['security.jwt.encoder']->decode($token) ) {
+            throw new Exception('Token doesnt exist');
+        } else {
+            $response = $token;
+        }
+
+    } catch (Exception $e) {
+
+        $response = [
+            'success' => false,
+            'error' => 'Invalid credentials',
+        ];
+
+    }
+
+    // return $app->json($tokenDecode);
+    return $app->json($response, ($response['success'] == true ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST));
 });
 
 
