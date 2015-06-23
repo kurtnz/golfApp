@@ -5,13 +5,44 @@ var router = require("./router");
 
 
 // Regions
+// ----------------------------------------------
+
 app.addRegions({
     appRegion: '#app',
     scoreRegion: '#course-score'
 });
 
 
+// Modify jquery ajax requests to check for token
+// ----------------------------------------------
+
+jQuery.ajaxSetup({
+
+    cache: false,
+
+    // Append token
+    beforeSend: function(xhr) {
+        console.log('check login token');
+        var token = sessionStorage.getItem('golf_auth_token');
+        if (token) {
+            xhr.setRequestHeader('JWT-Authorization', token);
+        }
+    },
+
+    // Response codes
+    statusCode: {
+        401: function () {
+            console.log('login error - show login');
+            vent.trigger('showLogin');
+        }
+    }
+
+});
+
+
 // Start app
+// ----------------------------------------------
+
 app.on('start', function() {
 
     // Event aggregator
@@ -19,6 +50,10 @@ app.on('start', function() {
 
     // TODO - Check for previous round
     // console.log('check for previous round');
+
+    vent.on('showLogin', function() {
+        router.navigate('/login', {trigger: true});
+    });
 
     vent.on('showHome', function() {
         router.navigate('', {trigger: true});

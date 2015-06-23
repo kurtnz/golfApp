@@ -1,7 +1,9 @@
 {
     "require": {
         "silex/silex": "~1.2",
+        "symfony/security": "*",
         "doctrine/dbal": "2.5.*",
-        "twig/twig": "~1.0"
+        "twig/twig": "~1.0",
+        "cnam/security-jwt-service-provider":"1.*"
     }
 }

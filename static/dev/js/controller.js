@@ -1,5 +1,6 @@
 'use strict';
 
+var LoginView = require('./views/login');
 var HomeView = require("./views/home");
 var Courses = require("./views/courses");
 var Course = require("./views/course");
@@ -14,8 +15,12 @@ var CourseHolesCollection = require("./collections/courseholes");
 var ScoreCollection = require("./collections/score");
 
 
-
 var controller = {
+
+    login: function() {
+        var loginView = new LoginView();
+        app.appRegion.show(loginView);
+    },
 
     home: function() {
         var homeView = new HomeView();

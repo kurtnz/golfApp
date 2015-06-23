@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     browserify: {
         app: {
             files: {
-                'static/dist/js/app.js': 'static/dev/js/app.init.js'
+                'static/dist/js/app.js': 'static/dev/js/main.js'
             },
             options: {
                 //watch: true,
@@ -40,10 +40,7 @@ module.exports = function(grunt) {
             'static/dev/js/libs/backbone-faux-server.js',
             'static/dev/js/libs/backbone-deep-model.js',
             'static/dev/js/libs/backbone.wreqr.js',
-            'static/dev/js/libs/google.maps.js',
-            // 'static/dev/js/app.init.js',
-            // 'static/dev/js/templates.js',
-            // 'static/dev/js/app.js'
+            'static/dev/js/libs/google.maps.js'
           ]
         }
       }
@@ -103,11 +100,11 @@ module.exports = function(grunt) {
       },
       hbs: {
         files: ['static/dev/**/*.hbs'],
-        tasks: ['concat', 'uglify', 'handlebars']
+        tasks: ['concat', 'uglify', 'handlebars', 'browserify']
       },
       scripts: {
         files: 'static/dev/**/*.js',
-        tasks: ['concat', 'uglify']
+        tasks: ['concat', 'uglify', 'browserify']
       },
       css: {
         files: ['static/**/*.scss'],
