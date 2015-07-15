@@ -39,6 +39,10 @@ this["GolfApp"]["Templates"]["static/dev/js/views/templates/login"] = Handlebars
     return "<fieldset>\n    <div class=\"form_row\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" name=\"username\" id=\"username\">\n    </div>\n    <div class=\"form_row\">\n        <label for=\"password\">Password</label>\n        <input type=\"password\" name=\"password\" id=\"password\">\n    </div>\n    <div class=\"form_row\">\n        <button type=\"submit\">Submit</button>\n    </div>\n</fieldset>";
 },"useData":true});
 
+this["GolfApp"]["Templates"]["static/dev/js/views/templates/round-continue"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<a href=\"\">Continue round</a>";
+},"useData":true});
+
 this["GolfApp"]["Templates"]["static/dev/js/views/templates/score-hole"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 

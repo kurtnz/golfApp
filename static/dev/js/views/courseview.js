@@ -11,13 +11,15 @@ var CourseView = Backbone.Marionette.ItemView.extend({
         var courseId = this.model.get('id');
 
         // Save course to round
-        window.roundModel.set({course_id: courseId});
+        window.roundModel.set({ course_id: courseId , round_status: 1 });
         window.roundModel.save(null, {
+
             success: function(model, response, options) {
                 model.set({id: response});
 
                 window.vent.trigger('showScorecard');
             }
+
         });
     }
 });

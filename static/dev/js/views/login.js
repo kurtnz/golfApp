@@ -20,14 +20,21 @@ var Login = Backbone.Marionette.ItemView.extend({
 
         var loginModel =  new LoginModel(indexed_array);
         loginModel.save(null, {
+
             success: function(data) {
                 var token = data.get('token');
+                var user_id = data.get('user_id');
+
                 sessionStorage.setItem('golf_auth_token', token);
+                sessionStorage.setItem('user_id', user_id);
+
                 vent.trigger('showHome');
             },
+
             error: function(data) {
                 console.log('Login error');
             }
+
         });
     }
 });

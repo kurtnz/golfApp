@@ -6,10 +6,12 @@ var Courses = require("./views/courses");
 var Course = require("./views/course");
 var ScoreCard = require("./views/scorecard");
 var Score = require("./views/score");
+var RoundContinue = require("./views/roundContinue");
 
 var ProfileModel = require("./models/profile");
 var CourseModel = require("./models/course");
 var SingleHoleModel = require("./models/singlehole");
+var RoundModel = require("./models/round");
 
 var CoursesCollection = require("./collections/courses");
 var CourseHolesCollection = require("./collections/courseholes");
@@ -24,14 +26,41 @@ var controller = {
     },
 
     home: function() {
-        var profileModel = new ProfileModel();
-        var profileModelFetch = profileModel.fetch({type: 'POST'});
-        profileModelFetch.done(function(profile) {
 
-            var homeView = new HomeView();
-            app.appRegion.show(homeView);
+        // Check for previous round
+        var previousRound = new RoundModel();
+        previousRound.fetch({
+
+            data: {
+                user_id: 1
+            },
+
+            // Previous round exists - show previous round view
+            success: function(model, response, options) {
+
+                var roundContinue = new RoundContinue({
+                    model: model
+                });
+                app.appRegion.show(roundContinue);
+
+            },
+
+            // No previous round - show home view
+            error: function(model, response, options) {
+
+                var profileModel = new ProfileModel();
+                var profileModelFetch = profileModel.fetch({type: 'POST'});
+                profileModelFetch.done(function(profile) {
+
+                    var homeView = new HomeView();
+                    app.appRegion.show(homeView);
+
+                });
+
+            }
 
         });
+        
     },
 
     showCourses: function() {

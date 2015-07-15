@@ -111,6 +111,7 @@ $app->post('/api/v1/login.json', function(Request $request) use ($app){
             $response = [
                 'success' => true,
                 'token' => $app['security.jwt.encoder']->encode(['name' => $user->getUsername()]),
+                'user_id' => 1
             ];
         }
     } catch (UsernameNotFoundException $e) {
@@ -157,9 +158,26 @@ $app->post('/api/v1/profile.json', function(Request $request) use ($app){
  */
 $app->post('/api/v1/round', function (Request $request) use ($app) {
     $course_id = $request->get('course_id');
-    $sql = "INSERT INTO round (course_id) VALUES (" . $course_id . ")";
+    $round_status = $request->get('round_status');
+    $sql = "INSERT INTO round (course_id, user_id, round_status) VALUES (" . $course_id . ", " . 1 . ", " . $round_status . ")";
     $round = $app['db']->executeUpdate($sql);
     return $app['db']->lastInsertId();
+});
+
+/**
+ * Get Previous Round
+ */
+$app->get('/api/v1/round', function (Request $request) use ($app) {
+    $user_id = $request->get('user_id');
+    $sql = "SELECT * FROM round WHERE user_id = " . $user_id . " AND round_status = 1";
+    $round = $app['db']->fetchAll($sql);
+
+    if( $round[0]["round_status"] == '1' ) {
+        $response = $app->json($round[0]);
+    } else {
+        $response = new Response('No previous round', 404);
+    }
+    return $response;
 });
 
 

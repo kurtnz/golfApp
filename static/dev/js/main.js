@@ -51,9 +51,6 @@ app.on('start', function() {
     // Event aggregator
     window.vent = new Backbone.Wreqr.EventAggregator();
 
-    // TODO - Check for previous round
-    // console.log('check for previous round');
-
     vent.on('showLogin', function() {
         router.navigate('/login', {trigger: true});
     });
@@ -83,4 +80,5 @@ app.on('start', function() {
         Backbone.history.start({pushState: true});
     }
 });
+
 app.start();
